@@ -2,6 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const HeroScene = dynamic(
+  () => import("./hero-scene").then((module) => module.HeroScene),
+  { ssr: false },
+);
 
 const projects = [
   {
@@ -144,7 +150,7 @@ type SnippetKey = keyof typeof snippets;
 
 const skills = [
   ["Languages & frameworks", "JavaScript ES6+", "TypeScript", "React.js", "Next.js", "HTML5", "CSS3"],
-  ["Interface craft", "Responsive UI", "Semantic HTML", "Accessibility", "Tailwind CSS", "Figma", "Cross-browser"],
+  ["Interface craft", "Responsive UI", "Semantic HTML", "Accessibility", "Tailwind CSS", "Three.js / WebGL", "Figma"],
   ["Engineering", "REST APIs", "State management", "Testing", "Performance", "Git", "CI/CD"],
 ];
 
@@ -199,6 +205,7 @@ export function PortfolioClient() {
       </header>
 
       <section className="hero" id="top">
+        <HeroScene theme={theme} />
         <div className="stars" aria-hidden="true">
           {Array.from({ length: 28 }, (_, index) => (
             <span key={index} style={{ "--i": index } as React.CSSProperties} />
@@ -227,7 +234,7 @@ export function PortfolioClient() {
             </a>
           </div>
         </div>
-        <p className="hero-caption">Golden hour / Milky way · a portfolio shaped by code and photography</p>
+        <p className="hero-caption">Interactive Three.js landscape · shaped by code and photography</p>
       </section>
 
       <section className="section about" id="about">

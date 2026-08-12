@@ -32,9 +32,9 @@ test("server-renders the portfolio and its core hiring content", async () => {
 
 test("ships the portfolio assets", async () => {
   await Promise.all([
-    access(new URL("../public/projects/straumann.webp", import.meta.url)),
-    access(new URL("../public/projects/blive.webp", import.meta.url)),
-    access(new URL("../public/projects/klife.webp", import.meta.url)),
+    access(new URL("../public/projects/straumann-live.jpg", import.meta.url)),
+    access(new URL("../public/projects/blive-live.jpg", import.meta.url)),
+    access(new URL("../public/projects/klife-live.jpg", import.meta.url)),
     access(new URL("../public/og-card.png", import.meta.url)),
     access(new URL("../public/docs/Pham_Xuan_Phuc_Frontend_Developer_CV.pdf", import.meta.url)),
   ]);

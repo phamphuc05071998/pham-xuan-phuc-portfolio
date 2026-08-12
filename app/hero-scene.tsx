@@ -5,6 +5,7 @@ import * as THREE from "three";
 
 type HeroSceneProps = {
   theme: "golden" | "night";
+  motionEnabled: boolean;
 };
 
 function seededNoise(index: number) {
@@ -61,15 +62,21 @@ function makeGlowTexture() {
   return new THREE.CanvasTexture(canvas);
 }
 
-export function HeroScene({ theme }: HeroSceneProps) {
+export function HeroScene({ theme, motionEnabled }: HeroSceneProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const themeRef = useRef(theme);
+  const motionRef = useRef(motionEnabled);
   const renderOnceRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     themeRef.current = theme;
     renderOnceRef.current?.();
   }, [theme]);
+
+  useEffect(() => {
+    motionRef.current = motionEnabled;
+    renderOnceRef.current?.();
+  }, [motionEnabled]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -149,7 +156,7 @@ export function HeroScene({ theme }: HeroSceneProps) {
     );
     const pointer = new THREE.Vector2(0, 0);
     const pointerTarget = new THREE.Vector2(0, 0);
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const startedAt = performance.now();
     let animationFrame = 0;
     let lastFrame = 0;
 
@@ -173,12 +180,17 @@ export function HeroScene({ theme }: HeroSceneProps) {
 
     const renderScene = (time = performance.now(), snap = false) => {
       const isNight = themeRef.current === "night";
+      const reduceMotion = !motionRef.current;
       const blend = snap ? 1 : 0.035;
+      const introProgress = reduceMotion
+        ? 1
+        : THREE.MathUtils.clamp((time - startedAt) / 1450, 0, 1);
+      const introEase = 1 - Math.pow(1 - introProgress, 3);
       pointer.lerp(pointerTarget, reduceMotion ? 1 : 0.035);
 
       starMaterial.opacity = THREE.MathUtils.lerp(
         starMaterial.opacity,
-        isNight ? 0.92 : 0,
+        isNight ? 0.78 + Math.sin(time * 0.0022) * 0.16 : 0,
         blend,
       );
       glowMaterial.opacity = THREE.MathUtils.lerp(
@@ -191,9 +203,9 @@ export function HeroScene({ theme }: HeroSceneProps) {
       orb.position.y = THREE.MathUtils.lerp(orb.position.y, isNight ? 2.55 : 2.1, blend);
       glow.position.y = orb.position.y;
 
-      stars.rotation.z = reduceMotion ? 0 : time * 0.000018;
-      stars.position.x = pointer.x * -0.12;
-      stars.position.y = pointer.y * 0.08;
+      stars.rotation.z = reduceMotion ? 0 : time * 0.000045;
+      stars.position.x = pointer.x * -0.26;
+      stars.position.y = pointer.y * 0.16 + (reduceMotion ? 0 : Math.sin(time * 0.0003) * 0.08);
 
       mountains.forEach((mountain, index) => {
         const material = mountain.material as THREE.MeshBasicMaterial;
@@ -201,14 +213,18 @@ export function HeroScene({ theme }: HeroSceneProps) {
           isNight ? nightMountainColors[index] : goldenMountainColors[index],
           blend,
         );
-        mountain.position.x = pointer.x * (0.08 + index * 0.05);
-        mountain.position.y = reduceMotion
+        mountain.position.x = pointer.x * (0.16 + index * 0.11);
+        const entranceOffset = (1 - introEase) * (-0.72 - index * 0.2);
+        const floatOffset = reduceMotion
           ? 0
-          : Math.sin(time * 0.00022 + index * 0.9) * (0.025 + index * 0.012);
+          : Math.sin(time * 0.00042 + index * 0.9) * (0.045 + index * 0.018);
+        mountain.position.y = entranceOffset + floatOffset;
       });
 
-      camera.position.x = pointer.x * 0.1;
-      camera.position.y = pointer.y * -0.06;
+      camera.zoom = 0.86 + introEase * 0.14;
+      camera.position.x = pointer.x * 0.2;
+      camera.position.y = pointer.y * -0.12 + (1 - introEase) * 0.34;
+      camera.updateProjectionMatrix();
       camera.lookAt(0, 0, 0);
       renderer.render(scene, camera);
     };
@@ -229,8 +245,8 @@ export function HeroScene({ theme }: HeroSceneProps) {
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     resize();
     renderScene(performance.now(), true);
-    renderOnceRef.current = () => renderScene(performance.now(), reduceMotion);
-    if (!reduceMotion) animationFrame = window.requestAnimationFrame(animate);
+    renderOnceRef.current = () => renderScene(performance.now(), !motionRef.current);
+    animationFrame = window.requestAnimationFrame(animate);
     canvas.classList.add("is-ready");
 
     return () => {

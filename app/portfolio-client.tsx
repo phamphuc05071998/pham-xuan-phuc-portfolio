@@ -14,7 +14,7 @@ const projects = [
     number: "01",
     title: "Straumann APAC",
     type: "Event platform",
-    image: "/projects/straumann.webp",
+    image: "/projects/straumann-live.jpg",
     dates: "02/2026 - 06/2026",
     problem:
       "Create one reliable digital journey for registration, payment, ticketing and on-site engagement across an APAC event.",
@@ -31,7 +31,7 @@ const projects = [
     number: "02",
     title: "BLive",
     type: "E-commerce",
-    image: "/projects/blive.webp",
+    image: "/projects/blive-live.jpg",
     dates: "2025 - present",
     problem:
       "Turn a growing product catalogue and affiliate model into a fast, usable commerce experience across devices.",
@@ -48,7 +48,7 @@ const projects = [
     number: "03",
     title: "K-Life",
     type: "Commerce experience",
-    image: "/projects/klife.webp",
+    image: "/projects/klife-live.jpg",
     dates: "10/2025 - 03/2026",
     problem:
       "Present a diverse retail catalogue through a friendly, responsive interface without losing clarity across content-heavy pages.",
@@ -156,6 +156,7 @@ const skills = [
 
 export function PortfolioClient() {
   const [theme, setTheme] = useState<"golden" | "night">("golden");
+  const [motionEnabled, setMotionEnabled] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSnippet, setActiveSnippet] = useState<SnippetKey>("html");
 
@@ -193,6 +194,14 @@ export function PortfolioClient() {
             {theme === "golden" ? "Golden hour" : "Milky way"}
           </button>
           <button
+            className="motion-toggle"
+            type="button"
+            aria-pressed={motionEnabled}
+            onClick={() => setMotionEnabled(!motionEnabled)}
+          >
+            {motionEnabled ? "Motion on" : "Motion off"}
+          </button>
+          <button
             className="menu-button"
             type="button"
             aria-expanded={menuOpen}
@@ -205,7 +214,7 @@ export function PortfolioClient() {
       </header>
 
       <section className="hero" id="top">
-        <HeroScene theme={theme} />
+        <HeroScene theme={theme} motionEnabled={motionEnabled} />
         <div className="stars" aria-hidden="true">
           {Array.from({ length: 28 }, (_, index) => (
             <span key={index} style={{ "--i": index } as React.CSSProperties} />

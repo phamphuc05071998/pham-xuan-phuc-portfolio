@@ -40,7 +40,7 @@ const projects = [
     decision:
       "Kept server data and client interaction concerns separate, then designed reusable product, promotion and checkout building blocks.",
     result:
-      "Delivered product discovery, flash sale, cart, checkout, orders, rewards and referral flows with SEO and 27 test files.",
+      "Delivered product discovery, flash sale, cart, checkout, orders, rewards and referral flows with SEO and automated test coverage for core commerce journeys.",
     tech: ["React 19", "Next.js 16", "TypeScript", "Redux", "SWR"],
     link: "https://blivemart.com/",
   },
@@ -268,9 +268,9 @@ export function PortfolioClient() {
             </p>
           </div>
           <dl className="facts">
-            <div><dt>3+</dt><dd>years in production frontend</dd></div>
-            <div><dt>60+</dt><dd>screens owned in one operations product</dd></div>
-            <div><dt>27</dt><dd>test files across core commerce flows</dd></div>
+            <div><dt>3+</dt><dd>years building production web products</dd></div>
+            <div><dt>15+</dt><dd>client projects across commerce, events and operations</dd></div>
+            <div><dt>E2E</dt><dd>frontend ownership from technical decisions to production support</dd></div>
             <div><dt>2025</dt><dd>Employee of the Year at Nanoweb</dd></div>
           </dl>
         </div>

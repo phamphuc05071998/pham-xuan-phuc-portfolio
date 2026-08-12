@@ -311,7 +311,9 @@ export function PortfolioClient() {
                   alt={`${project.title} project preview`}
                   width={1600}
                   height={900}
-                  sizes="(max-width: 800px) 100vw, 46vw"
+                  sizes="(max-width: 1280px) 100vw, 1200px"
+                  quality={95}
+                  unoptimized
                 />
                 <span>{project.number}</span>
               </a>

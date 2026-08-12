@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "https://pham-xuan-phuc-portfolio.phamphuc05071998.chatgpt.site";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Phạm Xuân Phúc | Frontend Developer",
   description:
     "Frontend Developer in Hanoi building thoughtful, responsive and production-ready web experiences with React, Next.js and TypeScript.",
@@ -12,7 +18,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-card.png",
+        url: `${basePath}/og-card.png`,
         width: 1743,
         height: 909,
         alt: "Phạm Xuân Phúc — Frontend Developer",
@@ -24,11 +30,11 @@ export const metadata: Metadata = {
     title: "Phạm Xuân Phúc | Frontend Developer",
     description:
       "Production web experiences built with React, Next.js and TypeScript.",
-    images: ["/og-card.png"],
+    images: [`${basePath}/og-card.png`],
   },
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: `${basePath}/favicon.svg`,
+    shortcut: `${basePath}/favicon.svg`,
   },
 };
 

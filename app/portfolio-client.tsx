@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const HeroScene = dynamic(
   () => import("./hero-scene").then((module) => module.HeroScene),
   { ssr: false },
@@ -14,7 +16,7 @@ const projects = [
     number: "01",
     title: "Straumann APAC",
     type: "Event platform",
-    image: "/projects/straumann-live.jpg",
+    image: `${basePath}/projects/straumann-live.jpg`,
     dates: "02/2026 - 06/2026",
     problem:
       "Create one reliable digital journey for registration, payment, ticketing and on-site engagement across an APAC event.",
@@ -31,7 +33,7 @@ const projects = [
     number: "02",
     title: "BLive",
     type: "E-commerce",
-    image: "/projects/blive-live.jpg",
+    image: `${basePath}/projects/blive-live.jpg`,
     dates: "2025 - present",
     problem:
       "Turn a growing product catalogue and affiliate model into a fast, usable commerce experience across devices.",
@@ -48,7 +50,7 @@ const projects = [
     number: "03",
     title: "K-Life",
     type: "Commerce experience",
-    image: "/projects/klife-live.jpg",
+    image: `${basePath}/projects/klife-live.jpg`,
     dates: "10/2025 - 03/2026",
     problem:
       "Present a diverse retail catalogue through a friendly, responsive interface without losing clarity across content-heavy pages.",
@@ -238,7 +240,7 @@ export function PortfolioClient() {
             <a className="button button-solid" href="#projects">
               Explore selected work
             </a>
-            <a className="button button-ghost" href="/docs/Pham_Xuan_Phuc_Frontend_Developer_CV.pdf" download>
+            <a className="button button-ghost" href={`${basePath}/docs/Pham_Xuan_Phuc_Frontend_Developer_CV.pdf`} download>
               Download CV
             </a>
           </div>
@@ -402,7 +404,7 @@ export function PortfolioClient() {
           <a href="mailto:phamphuc05071998@gmail.com"><span>Email</span>phamphuc05071998@gmail.com</a>
           <a href="tel:+84972462798"><span>Phone</span>+84 972 462 798</a>
           <a href="https://www.linkedin.com/in/phamphuc1998/" target="_blank" rel="noreferrer"><span>LinkedIn</span>phamphuc1998</a>
-          <a href="/docs/Pham_Xuan_Phuc_Frontend_Developer_CV.pdf" download><span>Resume</span>Download PDF</a>
+          <a href={`${basePath}/docs/Pham_Xuan_Phuc_Frontend_Developer_CV.pdf`} download><span>Resume</span>Download PDF</a>
         </div>
       </section>
 
